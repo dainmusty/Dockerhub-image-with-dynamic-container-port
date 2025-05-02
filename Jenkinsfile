@@ -65,7 +65,7 @@ stage('Build-Container') {
  
             // Run your Docker container with dynamic port # Remember to update your security group to allow this port
             sh """
-            docker run --name effulgencetech-nodejs-cont-${BUILD_NUMBER} -p $DYNAMIC_PORT:8080 -d topg528/effulgencetech-nodejs-img:13
+            docker run --name effulgencetech-nodejs-cont-${BUILD_NUMBER} -p $DYNAMIC_PORT:8080 -d dainmusty/effulgencetech-nodejs-img:13
             """
         }
     }
