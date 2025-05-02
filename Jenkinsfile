@@ -20,7 +20,7 @@ pipeline{
             		steps {
                 		echo 'Cloning project codebase...'
 						echo 'Build after cloning project codebase...'
-                		git branch: 'main', url: 'https://github.com/dainmusty/Effulgence.git'
+                		git branch: 'main', url: 'https://github.com/dainmusty/Dockerhub-image-with-dynamic-container-port.git'
             		}
         	}
 	
