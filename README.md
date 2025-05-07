@@ -249,9 +249,9 @@ stage('Build-Container') {
             // Save port to environment variable if needed
             env.DYNAMIC_PORT = port
  
-            // Run your Docker container with dynamic port
+            // Run your Docker container with dynamic port  # Remember to update the security group to allow this port
             sh """
-            docker run --name effulgencetech-nodejs-cont-${BUILD_NUMBER} -p $DYNAMIC_PORT:8080 -d topg528/effulgencetech-nodejs-img:13
+            docker run --name effulgencetech-nodejs-cont-${BUILD_NUMBER} -p $DYNAMIC_PORT:8080 -d $IMAGE_REPO_NAME:$BUILD_NUMBER
             """
         }
     }
@@ -278,4 +278,38 @@ stage('Build-Container') {
   //  }
  
 }
- 
+
+
+# Same Project via Github Actions.
+
+First create a web identity provider (github token)
+Create an iam role, choose web identity as the trusted entity
+# Under Github organisation, enter your git username
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "sts:AssumeRoleWithWebIdentity",
+            "Principal": {
+                "Federated": "arn:aws:iam::<put your acc id>:oidc-provider/token.actions.githubusercontent.com"
+            },
+            "Condition": {
+                "StringEquals": {
+                    "token.actions.githubusercontent.com:aud": [
+                        "sts.amazonaws.com"
+                    ]
+                },
+                "StringLike": {
+                    "token.actions.githubusercontent.com:sub": [
+                        "repo:dainmusty/*"
+                    ]
+                }
+            }
+        }
+    ]
+}
+
+
+Now add your secrets and role arn to your github
